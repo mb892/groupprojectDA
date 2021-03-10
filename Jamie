@@ -47,7 +47,7 @@ ggplot(SHS, aes(x = Obese, group = Employment)) +
            stat = "count", position = "dodge") +
   labs(y = "Proportion", fill = "Employment")
 
-SHS %>%
+Obesity %>%
   tabyl(Employment, Obese) %>%
   adorn_percentages() %>%
   adorn_pct_formatting() %>%
