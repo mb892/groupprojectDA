@@ -1,1 +1,97 @@
+obesity <- read.csv("DAProject3.csv", stringsAsFactors = TRUE) 
+summary(SHS)
+
+##1)
+
+ggplot(obesity, aes(x = Obese, group = Year)) +
+  geom_bar(aes(y = ..prop.., fill = Year),
+           stat = "count", position = "dodge") +
+  labs(y = "Proportion", fill = "Year")
+
+obesity %>%
+  tabyl(Year, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+model.Year <- glm(Obese ~ Year, data = obesity,
+                    family = binomial(link = "logit"))
+summary(model.Year)
+
+qchisq(p = 0.95, df = 1)
+
+##2)
+
+#Age
+
+obesity.age <- obesity %>%
+  select(Age, Obese)
+
+ggplot(obesity, aes(x = Obese, group = AgeGroup)) +
+  geom_bar(aes(y = ..prop.., fill = AgeGroup),
+           stat = "count", position = "dodge") +
+  labs(y = "Proportion", fill = "AgeGroup")
+
+model.age <- glm(Obese ~ AgeGroup, family=binomial, data=obesity)
+summary(model.age)
+#'No' is baseline for our binary response since it is first alphabetically
+levels(SHS$Obese)
+#age is a possibility as the CI doesn't contain 1
+
+0.0129712-1.96*0.0008058
+
+##Employment
+
+ggplot(SHS, aes(x = Obese, group = Employment)) +
+  geom_bar(aes(y = ..prop.., fill = Employment),
+           stat = "count", position = "dodge") +
+  labs(y = "Proportion", fill = "Employment")
+
+SHS %>%
+  tabyl(Employment, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+model.ed <- glm(Obese ~ Employment, family=binomial(link = "logit"), data=obesity)
+summary(model.ed)
+
+
+
+##Model Selection
+
+model <- glm(Obese ~ ., data = obesity,
+             family = binomial(link = "logit"))
+stepAIC(model)
+
+model.ob <- glm(Obese ~ AgeGroup + Sex + Employment + Veg,
+                   family=binomial(link = "logit"), data=obesity)
+
+
+levels(obesity$AgeGroup)
+levels(obesity$Sex)
+levels(obesity$Veg)
+
+
+#Baseline for response
+#No
+
+#Baselines for explanatory variables
+#16-24
+#Female
+#Doing something else
+#No
+
+model.ob.coef.logodds <- model.ob %>%
+  summary() %>%
+  coef()
+
+plot_model(model.ob, show.values = TRUE,
+           title = "", show.p = FALSE, value.offset = 0.25)
+
+
+
+
+
+
 
