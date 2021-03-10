@@ -125,11 +125,17 @@ bestmodel <- glm(Obese ~ AgeGroup + Sex + Employment + Veg,
 
 #rmarkdown formula
 
-$$\begin{align*}ln\bigg(\frac{p}{1-p}\bigg) & =\alpha+\beta_1\cdot AgeGroup + 
-\beta_2\cdot Sex+\beta_3\cdot Employment+\beta_4\cdot Veg \\ &=-1.427\,+
-\beta_1\,\cdot \mathbb{I}_{\mbox{AgeGroup}}(16-24)+\beta_2\cdot 
-\mathbb{I}_{\mbox{Sex}}(Female)+\beta_3\cdot \mathbb{I}_{\mbox{Employment}}(Doing some thing else)
-+\beta_4\cdot \mathbb{I}_{\mbox{Veg}}(No)\end{align*}$$
+$$ln\bigg(\frac{p}{1-p}\bigg) =-1.427\,+\beta_1\cdot 
+\mathbb{I}_{\mbox{AgeGroup}}+\beta_2\cdot 
+\mathbb{I}_{\mbox{Sex}}+\beta_3\cdot 
+\mathbb{I}_{\mbox{Employment}}+\beta_4\cdot
+\mathbb{I}_{\mbox{Veg}}$$
+
+$$\mathbb{I}_{\mbox{AgeGroup}}= \left\{\begin{array}{11}
+0, & \mbox{if 16-24}\\
+1, & \mbox{else}\\
+\end{array}
+\right.$$
 
 #summary
 
