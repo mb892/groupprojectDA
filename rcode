@@ -46,6 +46,72 @@ ggplot(obesity.fruitveg, aes(x= Obese, group= Veg)) +
   geom_bar(aes(y= ..prop.., fill= Veg), stat= "count", position= "dodge") +
   labs(y= "Proportion", fill= "Veg")
   
+#Age group
+
+obesity.age <- obesity %>%
+  dplyr :: select(Obese, AgeGroup)
+
+obesity.age %>%
+  tabyl(AgeGroup, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+ggplot(obesity.age, aes(x= Obese, group= AgeGroup)) +
+  geom_bar(aes(y= ..prop.., fill= AgeGroup), stat= "count", position= "dodge") +
+  labs(y= "Proportion", fill= "Age Group")
+ 
+#gender
+
+obesity.sex <- obesity %>%
+  dplyr :: select(Obese, Sex)
+
+obesity.sex %>%
+  tabyl(Sex, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+ggplot(obesity.sex, aes(x=Obese, group=Sex)) +
+  geom_bar(aes(y= ..prop.., fill= Sex), stat = "count", position = "dodge")
+
+#employment
+
+obesity.employ <- obesity %>%
+  dplyr :: select(Obese, Employment)
+
+obesity.employ %>%
+  tabyl(Employment, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+ggplot(obesity.employ, aes(x=Obese, group=Employment)) +
+  geom_bar(aes(y= ..prop.., fill= Employment), stat = "count", position = "dodge")
+
+#make model with all factors,
+
+model <- glm(Obese ~ ., data = obesity,
+             family = binomial(link = "logit"))
+             
+#find best model
+
+stepAIC(model)
+
+bestmodel <- glm(Obese ~ AgeGroup + Sex + Employment + Veg,
+                 data = obesity, family = binomial(link = "logit"))
+
+#summary
+
+bestmodel %>%
+  summary() %>%
+  coef()
   
-  
-  
+#summary exponentiated
+
+exp(coef(bestmodel))
+
+#odds ratio plot
+
+plot_model(bestmodel, show.values = TRUE,
+           show.p = FALSE, value.offset = 0.4, title = "")
