@@ -10,20 +10,33 @@ library(MASS)
 obesity <- read.csv("DAProject3.csv", stringsAsFactors = TRUE)
 levels(obesity$Obese) <- c("Not Obese", "Obese")
 
+##Q1
+##Exploratory Analysis
+
+##Formal Analysis
+
+##Q2
+
+#Fruit/veg
+
 obesity.fruitveg <- obesity %>%
   dplyr :: select(Obese, Fruit, Veg)
+
+#create tables
 
 obesity.fruitveg %>%
   tabyl(Fruit, Obese) %>%
   adorn_percentages() %>%
   adorn_pct_formatting() %>%
   adorn_ns()
-
+  
 obesity.fruitveg %>%
   tabyl(Veg, Obese) %>%
   adorn_percentages() %>%
   adorn_pct_formatting() %>%
   adorn_ns()
+  
+#create plots
 
 ggplot(obesity.fruitveg, aes(x= Obese, group= Fruit)) +
   geom_bar(aes(y= ..prop.., fill= Fruit), stat= "count", position= "dodge") +
@@ -32,86 +45,7 @@ ggplot(obesity.fruitveg, aes(x= Obese, group= Fruit)) +
 ggplot(obesity.fruitveg, aes(x= Obese, group= Veg)) +
   geom_bar(aes(y= ..prop.., fill= Veg), stat= "count", position= "dodge") +
   labs(y= "Proportion", fill= "Veg")
-
-model.fruit <- glm(Obese ~ Fruit, data = obesity.fruitveg,
-                      family = binomial(link = "logit"))
-
-model.fruit %>% summary()
-
-model.veg <- glm(Obese ~ Veg, data = obesity.fruitveg,
-                 family = binomial(link = "logit"))
-
-model.veg %>% summary()
-
-model.fruit <- glm(Obese ~ Fruit, data = obesity.fruitveg,
-                      family = binomial(link = "logit"))
-
-model.fruit %>% summary()
-
-obesity.age <- obesity %>%
-  dplyr :: select(Obese, AgeGroup)
-
-obesity.age %>%
-  tabyl(AgeGroup, Obese) %>%
-  adorn_percentages() %>%
-  adorn_pct_formatting() %>%
-  adorn_ns()
-
-ggplot(obesity.age, aes(x= Obese, group= AgeGroup)) +
-  geom_bar(aes(y= ..prop.., fill= AgeGroup), stat= "count", position= "dodge") +
-  labs(y= "Proportion", fill= "Age Group")
-
-model.age <- glm(Obese ~ AgeGroup, data = obesity.age,
-                 family = binomial(link = "logit"))
-
-model.age %>% summary()
-
-
-obesity.sex <- obesity %>%
-  dplyr :: select(Obese, Sex)
-
-obesity.sex %>%
-  tabyl(Sex, Obese) %>%
-  adorn_percentages() %>%
-  adorn_pct_formatting() %>%
-  adorn_ns()
-
-ggplot(obesity.sex, aes(x=Obese, group=Sex)) +
-  geom_bar(aes(y= ..prop.., fill= Sex), stat = "count", position = "dodge")
-
-obesity.employ <- obesity %>%
-  dplyr :: select(Obese, Employment)
-
-obesity.employ %>%
-  tabyl(Employment, Obese) %>%
-  adorn_percentages() %>%
-  adorn_pct_formatting() %>%
-  adorn_ns()
-
-ggplot(obesity.employ, aes(x=Obese, group=Employment)) +
-  geom_bar(aes(y= ..prop.., fill= Employment), stat = "count", position = "dodge")
-
-
-#########################################################
-model <- glm(Obese ~ ., data = obesity,
-             family = binomial(link = "logit"))
-
-stepAIC(model)
-
-bestmodel <- glm(Obese ~ AgeGroup + Sex + Employment + Veg,
-                 data = obesity, family = binomial(link = "logit"))
-
-
-bestmodel %>%
-  summary() %>%
-  coef()
-
-bestmodel %>%
-  summary() %>%
-  coef() %>%
-  exp()
-
-exp(coef(bestmodel))
-plot_model(bestmodel, show.values = TRUE,
-           show.p = FALSE, value.offset = 0.4, title = "")
-#######################################################
+  
+  
+  
+  
