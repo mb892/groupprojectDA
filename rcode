@@ -13,6 +13,21 @@ levels(obesity$Obese) <- c("Not Obese", "Obese")
 ##Q1
 ##Exploratory Analysis
 
+ggplot(obesity, aes(x = Obese, group = Year)) +
+  geom_bar(aes(y = ..prop.., fill = Year),
+           stat = "count", position = "dodge") +
+  labs(y = "Proportion", fill = "Year")
+
+obesity %>%
+  tabyl(Year, Obese) %>%
+  adorn_percentages() %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+  
+model.Year <- glm(Obese ~ Year, data = obesity,
+                    family = binomial(link = "logit"))
+summary(model.Year)
+
 ##Formal Analysis
 
 ##Q2
