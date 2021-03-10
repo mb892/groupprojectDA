@@ -137,6 +137,23 @@ $$\mathbb{I}_{\mbox{AgeGroup}}= \left\{\begin{array}{11}
 \end{array}
 \right.$$
 
+$$\mathbb{I}_{\mbox{Sex}}= \left\{\begin{array}{11}
+0, & \mbox{if female}\\
+1, & \mbox{else}\\
+\end{array}
+\right.$$
+
+$$\mathbb{I}_{\mbox{Employment}}= \left\{\begin{array}{11}
+0, & \mbox{if doing something else}\\
+1, & \mbox{else}\\
+\end{array}
+\right.$$
+$$\mathbb{I}_{\mbox{Veg}}= \left\{\begin{array}{11}
+0, & \mbox{if no vegetable consumption}\\
+1, & \mbox{else}\\
+\end{array}
+\right.$$
+
 #summary
 
 bestmodel %>%
