@@ -30,6 +30,13 @@ summary(model.Year)
 
 ##Formal Analysis
 
+$$ln\bigg(\frac{p}{1-p}\bigg)=\alpha\,+\beta\, \cdot Year=-12.08\,+0.005586\,
+\cdot \mathbb{I}_{\mbox{Year}}(2013)$$
+
+model.Year <- glm(Obese ~ Year, data = obesity,
+                    family = binomial(link = "logit"))
+summary(model.Year)
+
 ##Q2
 
 #Fruit/veg
